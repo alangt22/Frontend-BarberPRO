@@ -1,13 +1,13 @@
 import { useState, useContext } from 'react';
 import Head from 'next/head'
 import Image from 'next/image';
-import logoImg from '../../public/logo.svg'
+import logoImg from '../../../public/logo.svg'
 import { Flex, Text, Center, Input, Button } from '@chakra-ui/react'
 
 import Link from 'next/link'
-import { AuthContext } from '@/context/AuthContext';
-import { canSSRGuest } from '@/utils/canSSRGuest';
 
+import { AuthContext } from '../../context/AuthContext'
+import { canSSRGuest } from '../../utils/canSSRGuest'
 
 export default function Register(){
   const { signUp } = useContext(AuthContext);

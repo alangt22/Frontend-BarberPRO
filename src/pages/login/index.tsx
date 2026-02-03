@@ -1,38 +1,39 @@
-import { useState, useContext } from 'react';
+import { useState, useContext } from 'react'
 import Head from 'next/head'
 import Image from 'next/image';
-import logoImg from '../../public/logo.svg'
+import logoImg from '../../../public/logo.svg'
 import { Flex, Text, Center, Input, Button } from '@chakra-ui/react'
 
 import Link from 'next/link'
-import { AuthContext } from '@/context/AuthContext';
-import { canSSRGuest } from '@/utils/canSSRGuest';
 
+import { AuthContext } from '../../context/AuthContext'
 
-export default function Register(){
-  const { signUp } = useContext(AuthContext);
+import { canSSRGuest } from '../../utils/canSSRGuest'
 
-  const [name, setName] = useState('')
+export default function Login(){
+  const { signIn } = useContext(AuthContext)
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  async function handleRegister(){
-      if(name === '' && email === '' && password === ''){
-        return;
-      }
 
-      await signUp({
-        name,
-        email,
-        password
-      })
+  async function handleLogin(){
+
+    if(email === '' || password === ''){
+      return;
+    }
+
+    await signIn({
+      email,
+      password,
+    })
   }
 
 
   return(
     <>
       <Head>
-        <title>Cria sua conta no BarberPRO</title>
+        <title>BarberPRO - Faça login para acessar</title>
       </Head>
       <Flex background="barber.900" height="100vh" alignItems="center" justifyContent="center">
         
@@ -45,18 +46,6 @@ export default function Register(){
               alt="Logo barberpro"
             />
           </Center>
-
-          <Input
-            background="barber.400"
-            variant="filled"
-            size="lg"
-            placeholder="Nome da barbearia"
-            type="text"
-            mb={3}
-            value={name}
-            onChange={ (e) => setName(e.target.value) }
-            color="white"
-          />
 
           <Input
             background="barber.400"
@@ -83,20 +72,20 @@ export default function Register(){
           />
 
           <Button
-            onClick={handleRegister}
             background="button.cta"
             mb={6}
             color="gray.900"
             size="lg"
             _hover={{ bg: "#ffb13e" }}
+            onClick={handleLogin}
           >
-            Cadastrar
+            Acessar
           </Button>
 
 
           <Center mt={2}>
-            <Link href="/login">
-              <Text cursor="pointer">Já possui uma conta? <strong>Faça login</strong></Text>
+            <Link href="/register">
+              <Text cursor="pointer">Ainda não possui conta? <strong>Cadastre-se</strong></Text>
             </Link>
           </Center>
 
@@ -107,6 +96,7 @@ export default function Register(){
     </>
   )
 }
+
 
 export const getServerSideProps = canSSRGuest(async (ctx) => {
   return{
