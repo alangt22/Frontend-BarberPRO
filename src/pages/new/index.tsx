@@ -39,7 +39,7 @@ export default function New({ haircuts }: NewProps){
     
     const haircutItem = haircuts.find(item => item.id === id)
 
-    setHaircutSelected(haircutItem)
+    setHaircutSelected(haircutItem as HaircutProps)
 
   }
 
@@ -134,11 +134,11 @@ export default function New({ haircuts }: NewProps){
 }
 
 
-export const getServerSideProps = canSSRAuth(async (ctx) => {
+export const getServerSideProps = canSSRAuth(async (ctx ) => {
 
   try{
 
-    const apiClient = setupAPIClient(ctx);
+    const apiClient = setupAPIClient(ctx as any);
     const response = await apiClient.get('/haircuts', {
       params:{
         status: true,
