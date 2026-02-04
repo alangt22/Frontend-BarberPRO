@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { use, useState } from 'react'
 import Head from 'next/head';
 import { 
   Flex, 
@@ -7,7 +7,8 @@ import {
   Button,
   Link as ChakraLink,
   useMediaQuery,
-  useDisclosure
+  useDisclosure,
+  useToast
 } from '@chakra-ui/react';
 
 import Link from 'next/link'
@@ -17,6 +18,7 @@ import { canSSRAuth } from '../../utils/canSSRAuth'
 import { Sidebar } from '../../components/sidebar'
 import { setupAPIClient } from '../../services/api'
 import { ModalInfo } from '../../components/modal'
+import { LoadingButton } from '@/components/loadingButton';
 
 
 export interface ScheduleItem{
@@ -37,7 +39,7 @@ interface DashboardProps{
 export default function Dashboard({ schedule }: DashboardProps){
   const [list, setList] = useState(schedule)
   const [service, setService] = useState<ScheduleItem>()
-
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure(); 
 
   const [isMobile] = useMediaQuery("(max-width: 500px)")
@@ -62,12 +64,26 @@ export default function Dashboard({ schedule }: DashboardProps){
       })
 
       setList(filterItem)
+      toast({
+        title: "Serviço finalizado com sucesso!",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+        position: "top-right",
+      })
       onClose();
 
     }catch(err){
       console.log(err);
       onClose();
-      alert("Erro ao finalizar este serviço")
+      toast({
+        title: "Erro ao finalizar serviço!",
+        description: "Ocorreu um erro ao finalizar o serviço, tente novamente mais tarde.",
+        status: "error",
+        duration: 9000, 
+        isClosable: true,
+        position: "top-right",
+      })
     }
   }
 
@@ -83,7 +99,7 @@ export default function Dashboard({ schedule }: DashboardProps){
               Agenda
             </Heading>
             <Link href="/new">
-              <Button bg="button.cta" _hover={{ background: 'gray.700' }}>Registrar</Button>
+              <LoadingButton bg="button.cta" _hover={{ background: 'gray.700' }}>Registrar</LoadingButton>
             </Link>
           </Flex>
 

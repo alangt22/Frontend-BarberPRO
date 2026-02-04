@@ -2,17 +2,18 @@ import { useState, useContext } from 'react'
 import Head from 'next/head'
 import Image from 'next/image';
 import logoImg from '../../../public/logo.svg'
-import { Flex, Text, Center, Input, Button } from '@chakra-ui/react'
+import { Flex, Text, Center, Input, Button, useToast } from '@chakra-ui/react'
 
 import Link from 'next/link'
 
 import { AuthContext } from '../../context/AuthContext'
 
 import { canSSRGuest } from '../../utils/canSSRGuest'
+import { LoadingButton } from '@/components/loadingButton';
 
 export default function Login(){
   const { signIn } = useContext(AuthContext)
-
+  const toast = useToast();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -26,6 +27,14 @@ export default function Login(){
     await signIn({
       email,
       password,
+    })
+
+    toast({
+      title: "Olá de novo!",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+      position: "top-right",
     })
   }
 
@@ -71,7 +80,7 @@ export default function Login(){
             color="white"
           />
 
-          <Button
+          <LoadingButton
             background="button.cta"
             mb={6}
             color="gray.900"
@@ -80,7 +89,7 @@ export default function Login(){
             onClick={handleLogin}
           >
             Acessar
-          </Button>
+          </LoadingButton>
 
 
           <Center mt={2}>

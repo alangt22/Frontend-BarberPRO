@@ -11,6 +11,7 @@ import { Sidebar } from '../../components/sidebar'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { setupAPIClient } from '../../services/api'
 import { getStripeJs } from '@/services/stripe-js';
+import { LoadingButton } from '@/components/loadingButton';
 interface PlanosProps{
   premium: boolean;
 }
@@ -106,7 +107,7 @@ export default function Planos({ premium }: PlanosProps){
                 <Text fontWeight="medium" ml={4} mb={2}>Receber todas atualizações.</Text>
                 <Text color="#31fb6a" fontWeight="bold" fontSize="2xl" ml={4} mb={2}>R$ 9.99</Text>
 
-                <Button
+                <LoadingButton
                   bg={premium ? "transparent" : "button.cta"}
                   m={2}
                   color="white"
@@ -118,10 +119,10 @@ export default function Planos({ premium }: PlanosProps){
                   ) : (
                     "VIRAR PREMIUM"
                   )}
-                </Button>
+                </LoadingButton>
 
                 {premium && (
-                  <Button
+                  <LoadingButton
                     m={2}
                     bg="white"
                     color="barber.900"
@@ -129,7 +130,7 @@ export default function Planos({ premium }: PlanosProps){
                     onClick={handleCreatePortal}
                   >
                     ALTERAR ASSINATURA
-                  </Button>
+                  </LoadingButton>
                 )}
 
               </Flex> 

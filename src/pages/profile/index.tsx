@@ -6,7 +6,8 @@ import {
   Heading,
   Box,
   Input,
-  Button
+  Button,
+  useToast
 } from '@chakra-ui/react'
 import { Sidebar } from '../../components/sidebar'
 
@@ -14,6 +15,7 @@ import Link from 'next/link'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { AuthContext } from '../../context/AuthContext'
 import { setupAPIClient } from '../../services/api'
+import { LoadingButton } from '@/components/loadingButton'
 
 interface UserProps{
   id: string;
@@ -29,13 +31,21 @@ interface ProfileProps{
 
 export default function Profile({ user, premium }: ProfileProps){
   const { logoutUser } = useContext(AuthContext);
-
+  const toast = useToast();
   const [name, setName] = useState(user && user?.name)
   const [endereco, setEndereco] = useState(user?.endereco ? user?.endereco : '')
 
 
   async function handleLogout(){
     await logoutUser();
+    toast({
+      title: "Logout realizado!",
+      description: "Deslogado com sucesso...",
+      status: "info",
+      duration: 5000,
+      isClosable: true,
+      position: "top-right",
+    })
   }
 
 
@@ -52,10 +62,25 @@ export default function Profile({ user, premium }: ProfileProps){
         endereco: endereco,
       })
 
-      alert("Dados alterados com sucesso!");
+      toast({
+        title: "Dados atualizados!",
+        description: "Seus dados foram atualizados com sucesso.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      })
 
     }catch(err){
       console.log(err);
+      toast({
+        title: "Erro ao atualizar dados!",
+        description: "Ocorreu um erro ao atualizar seus dados, tente novamente mais tarde.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      })
     }
     
   }
@@ -136,7 +161,7 @@ export default function Profile({ user, premium }: ProfileProps){
 
             </Flex>
 
-            <Button
+            <LoadingButton
               w="100%"
               mt={3}
               mb={4}
@@ -146,9 +171,9 @@ export default function Profile({ user, premium }: ProfileProps){
               onClick={handleUpdateUser}
             >
               Salvar
-            </Button>
+            </LoadingButton>
 
-            <Button
+            <LoadingButton
               w="100%"
               mb={6}
               bg="transparent"
@@ -160,7 +185,7 @@ export default function Profile({ user, premium }: ProfileProps){
               onClick={handleLogout}
             >
               Sair da conta
-            </Button>
+            </LoadingButton>
 
           </Flex>
         </Flex>

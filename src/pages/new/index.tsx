@@ -8,13 +8,15 @@ import {
   Text,
   Button,
   Input,
-  Select
+  Select,
+  useToast
 } from '@chakra-ui/react'
 
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { setupAPIClient } from '../../services/api'
 
 import { useRouter } from 'next/router'
+import { LoadingButton } from '@/components/loadingButton'
 
 interface HaircutProps{
   id: string;
@@ -29,7 +31,7 @@ interface NewProps{
 }
 
 export default function New({ haircuts }: NewProps){
-
+  const toast = useToast();
   const [customer, setCustomer] = useState('')
   const [haircutSelected, setHaircutSelected] = useState(haircuts[0])
   const router = useRouter();
@@ -60,6 +62,14 @@ export default function New({ haircuts }: NewProps){
       })
 
       router.push('/dashboard')
+      toast({
+        title: "Agendamento realizado!",
+        description: `Cliente ${customer} agendado com sucesso!`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      })
 
 
     }catch(err){
@@ -114,7 +124,7 @@ export default function New({ haircuts }: NewProps){
               ))}
             </Select>
 
-            <Button
+            <LoadingButton
               w="85%"
               size="lg"
               color="gray.900"
@@ -123,7 +133,7 @@ export default function New({ haircuts }: NewProps){
               onClick={handleRegister}
             >
               Cadastrar
-            </Button>
+            </LoadingButton>
 
           </Flex>
 

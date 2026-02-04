@@ -2,15 +2,17 @@ import { useState, useContext } from 'react';
 import Head from 'next/head'
 import Image from 'next/image';
 import logoImg from '../../../public/logo.svg'
-import { Flex, Text, Center, Input, Button } from '@chakra-ui/react'
+import { Flex, Text, Center, Input, Button, useToast } from '@chakra-ui/react'
 
 import Link from 'next/link'
 
 import { AuthContext } from '../../context/AuthContext'
 import { canSSRGuest } from '../../utils/canSSRGuest'
+import { LoadingButton } from '@/components/loadingButton';
 
 export default function Register(){
   const { signUp } = useContext(AuthContext);
+  const toast = useToast();
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -25,6 +27,15 @@ export default function Register(){
         name,
         email,
         password
+      })
+
+      toast({
+        title: "Conta criada.",
+        description: "Sua conta foi criada com sucesso!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
       })
   }
 
@@ -82,7 +93,7 @@ export default function Register(){
             color="white"
           />
 
-          <Button
+          <LoadingButton
             onClick={handleRegister}
             background="button.cta"
             mb={6}
@@ -91,7 +102,7 @@ export default function Register(){
             _hover={{ bg: "#ffb13e" }}
           >
             Cadastrar
-          </Button>
+          </LoadingButton>
 
 
           <Center mt={2}>

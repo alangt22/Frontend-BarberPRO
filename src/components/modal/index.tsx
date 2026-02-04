@@ -14,6 +14,7 @@ import {
 import { FiUser, FiScissors } from 'react-icons/fi'
 import { FaMoneyBillAlt } from 'react-icons/fa'
 import { ScheduleItem } from '../../pages/dashboard'
+import { LoadingButton } from '../loadingButton';
 
 interface ModalInfoProps{
   isOpen: boolean;
@@ -55,7 +56,7 @@ export function ModalInfo({ isOpen, onOpen, onClose, data, finishService  }:Moda
           </Flex>
 
           <ModalFooter>
-            <Button
+            <LoadingButton
               bg="button.cta"
               _hover={{ bg: '#FFb13e' }}
               color="#FFF"
@@ -63,7 +64,7 @@ export function ModalInfo({ isOpen, onOpen, onClose, data, finishService  }:Moda
               onClick={ () => finishService() }
             >
               Finalizar Serviço
-            </Button>
+            </LoadingButton>
           </ModalFooter>
 
 
