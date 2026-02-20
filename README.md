@@ -2,6 +2,9 @@
 
 Aplicação web moderna desenvolvida em Next.js para o sistema de gerenciamento de barbearias.
 
+- Demo:
+https://frontend-barber-pro.vercel.app/
+
 ## 📋 Sumário
 
 - [Visão Geral](#-visão-geral)
