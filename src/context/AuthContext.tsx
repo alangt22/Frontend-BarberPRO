@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useState, useEffect } from 'react'
 import { destroyCookie, setCookie, parseCookies } from 'nookies'
 import Router from 'next/router'
+import { useToast } from '@chakra-ui/react'
 
 import { api } from '../services/apiClient'
 
@@ -111,23 +112,19 @@ export function AuthProvider({ children }: AuthProviderProps){
 
     }catch(err){
       console.log("ERRO AO ENTRAR", err)
+      throw err;
     }
   }
 
 
   async function signUp({ name, email, password}: SignUpProps){
-    try{
-      const response = await api.post('/users', {
-        name,
-        email,
-        password
-      })
+    const response = await api.post('/users', {
+      name,
+      email,
+      password
+    })
 
-      Router.push('/login')
-
-    }catch(err){
-      console.log(err);
-    }
+    Router.push('/login')
   }
 
 

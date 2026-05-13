@@ -21,10 +21,19 @@ export default function Login(){
   async function handleLogin(){
 
     if(email === '' || password === ''){
+      toast({
+        title: "Preencha os campos",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,       
+        position: "top-right",
+      })
       return;
     }
 
-    await signIn({
+
+    try{
+      await signIn({
       email,
       password,
     })
@@ -36,6 +45,16 @@ export default function Login(){
       isClosable: true,
       position: "top-right",
     })
+    }catch(err){
+      toast({
+        title: "Erro ao acessar",
+        description: "E-mail ou senha incorretos.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,       
+        position: "top-right",
+      })
+    }
   }
 
 

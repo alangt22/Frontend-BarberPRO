@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image';
 import logoImg from '../../../public/logo.svg'
 import { Flex, Text, Center, Input, Button, useToast } from '@chakra-ui/react'
+import { AxiosError } from 'axios';
 
 import Link from 'next/link'
 
@@ -19,24 +20,60 @@ export default function Register(){
   const [password, setPassword] = useState('')
 
   async function handleRegister(){
+
+    
+
       if(name === '' && email === '' && password === ''){
+        toast({
+          title: "Preencha os campos.",
+          description: "Preencha os campos para criar sua conta!",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        })
+        return;
+      } else if(password.length < 6){
+        toast({
+          title: "Senha fraca.",
+          description: "Sua senha precisa ter no mínimo 6 caracteres!",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        })
         return;
       }
 
-      await signUp({
-        name,
-        email,
-        password
-      })
+      try{
+        await signUp({
+          name,
+          email,
+          password
+        })
 
-      toast({
-        title: "Conta criada.",
-        description: "Sua conta foi criada com sucesso!",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "top-right",
-      })
+        toast({
+          title: "Conta criada.",
+          description: "Sua conta foi criada com sucesso!",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        })
+
+      }catch(err){
+        const msg = err instanceof AxiosError
+          ? err.response?.data?.error || err.message
+          : "Erro inesperado, tente novamente.";
+        toast({
+          title: "Erro ao cadastrar",
+          description: msg,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        })
+      }
   }
 
 
